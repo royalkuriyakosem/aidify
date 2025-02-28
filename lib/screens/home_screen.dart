@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:aidify/services/supabase_service.dart';
-import 'accessibility_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,10 +8,18 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Aidify Features'),
+        title: const Text(
+          'Aidify Features',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white, // White text color
+          ),
+        ),
+        backgroundColor: const Color(0xFF6200EE), // Primary color for app bar
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.logout, color: Colors.white), // White logout icon
             onPressed: () async {
               await SupabaseService.signOut();
             },
@@ -22,37 +29,45 @@ class HomeScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
+          crossAxisCount: 2, // 2 columns
+          crossAxisSpacing: 16, // Spacing between columns
+          mainAxisSpacing: 16, // Spacing between rows
           children: [
             _buildFeatureCard(
               context,
               'Text to Speech',
               Icons.record_voice_over,
               'Convert text to spoken words',
-              () => Navigator.pushNamed(context, '/text-to-speech'),
+                  () {
+                // Add navigation or functionality here
+              },
             ),
             _buildFeatureCard(
               context,
               'Speech to Text',
               Icons.mic,
               'Convert speech to written text',
-              () => Navigator.pushNamed(context, '/speech-to-text'),
+                  () {
+                // Add navigation or functionality here
+              },
             ),
             _buildFeatureCard(
               context,
               'Object Detection',
               Icons.camera_alt,
               'Identify objects using camera',
-              () => Navigator.pushNamed(context, '/object-detection'),
+                  () {
+                // Add navigation or functionality here
+              },
             ),
             _buildFeatureCard(
               context,
               'Settings',
               Icons.settings,
               'Customize app settings',
-              () => Navigator.pushNamed(context, '/settings'),
+                  () {
+                // Add navigation or functionality here
+              },
             ),
           ],
         ),
@@ -60,31 +75,48 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, String title, IconData icon,
-      String description, VoidCallback onTap) {
+  Widget _buildFeatureCard(
+      BuildContext context,
+      String title,
+      IconData icon,
+      String description,
+      VoidCallback onTap,
+      ) {
     return Card(
-      elevation: 4,
+      elevation: 4, // Shadow effect
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8), // Rounded corners
+      ),
       child: InkWell(
         onTap: onTap,
+        borderRadius: BorderRadius.circular(8), // Rounded corners for InkWell
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 48, color: Theme.of(context).primaryColor),
-              const SizedBox(height: 8),
+              Icon(
+                icon,
+                size: 48,
+                color: Theme.of(context).primaryColor, // Primary color for icons
+              ),
+              const SizedBox(height: 8), // Spacing between icon and title
               Text(
                 title,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black, // Black text color for title
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 4), // Spacing between title and description
               Text(
                 description,
-                style: const TextStyle(fontSize: 12),
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey, // Grey text color for description
+                ),
                 textAlign: TextAlign.center,
               ),
             ],

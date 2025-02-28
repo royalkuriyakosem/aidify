@@ -2,26 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:aidify/services/supabase_service.dart';
 
-class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
+class AuthState extends StatefulWidget {
   @override
-  void onUnauthenticated() {
-    if (mounted) {
-      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
-    }
+  _AuthState createState() => _AuthState();
+}
+
+class _AuthState extends State<AuthState> {
+  final SupabaseClient supabase = Supabase.instance.client;
+  
+  @override
+  void initState() {
+    super.initState();
+    
+    // Listen for authentication state changes
+    supabase.auth.onAuthStateChange.listen((data) {
+      final AuthChangeEvent event = data.event;
+      final Session? session = data.session;
+
+      if (!mounted) return;
+
+      switch (event) {
+        case AuthChangeEvent.signedIn:
+          Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+          break;
+        case AuthChangeEvent.signedOut:
+          Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+          break;
+        case AuthChangeEvent.passwordRecovery:
+          // Handle password recovery if needed
+          break;
+        case AuthChangeEvent.userUpdated:
+          // Handle user updates
+          break;
+        default:
+          break;
+      }
+    });
   }
 
-  @override
-  void onAuthenticated(Session session) {
-    if (mounted) {
-      Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
-    }
-  }
-
-  @override
-  void onPasswordRecovery(Session session) {}
-
-  @override
-  void onErrorAuthenticating(String message) {
+  void showError(String message) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -31,4 +50,11 @@ class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
       );
     }
   }
-} 
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: CircularProgressIndicator()), // Placeholder UI
+    );
+  }
+}

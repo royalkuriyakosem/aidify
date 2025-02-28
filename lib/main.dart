@@ -6,9 +6,6 @@ import 'services/auth_state_handler.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/home_screen.dart';
-import 'screens/text_to_speech_screen.dart';
-import 'screens/speech_to_text_screen.dart';
-import 'screens/object_detection_screen.dart';
 import 'screens/settings_screen.dart';
 
 void main() async {
@@ -50,9 +47,6 @@ class AidifyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
         '/home': (context) => const HomeScreen(),
-        '/text-to-speech': (context) => const TextToSpeechScreen(),
-        '/speech-to-text': (context) => const SpeechToTextScreen(),
-        '/object-detection': (context) => const ObjectDetectionScreen(),
         '/settings': (context) => const SettingsScreen(),
       },
     );
